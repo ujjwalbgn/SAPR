@@ -1,0 +1,1 @@
+Make sure to add _.env_ file as shown in *.env.example*

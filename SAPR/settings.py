@@ -89,6 +89,7 @@ WSGI_APPLICATION = 'SAPR.wsgi.application'
 # }
 
 # using django-environ to read from .env
+# https://github.com/joke2k/django-environ
 import environ
 
 env = environ.Env(
