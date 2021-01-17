@@ -1,5 +1,6 @@
 from django.db import models
 
+from datetime import datetime
 from attendance.utils import create_new_ref_number
 
 # Create your models here.
@@ -38,3 +39,29 @@ class Student (models.Model):
     def __str__(self):
         display = (self.first_name + " " + self.last_name)
         return display
+
+class TimeSlot (models.Model):
+    time_slot = models.TimeField()
+
+    def __str__(self):
+        return str(self.time_slot)
+
+class Schedule (models.Model):
+    DAY_Choices = [('S','Sunday'),('M','Monday'),('T','Tuesday'),('W','Wednesday'),('Th','Thursday'),('F','Friday'),('Sa','Saturday')]
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    day = models.CharField(max_length=9,choices=DAY_Choices)
+    time_slots = models.ForeignKey(TimeSlot, on_delete= models.DO_NOTHING)
+
+
+    def __str__(self):
+        display = (str(self.student) + " at " + str(self.time_slots))
+        return display
+
+
+class Class_Attendance(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    MODE_CHOICES = [('In person', 'In person'),('Online', 'Online')]
+    CLASS_QTN =[('1','1'),('2','2')]
+    Date_time = models.DateTimeField(default=datetime.now)
+    Number_of_classes = models.CharField(max_length=1,choices=CLASS_QTN)
