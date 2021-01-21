@@ -1,6 +1,6 @@
 from django.db import models
 
-from datetime import datetime
+from datetime import datetime,time,date
 from attendance.utils import create_new_ref_number
 
 # Create your models here.
@@ -59,9 +59,16 @@ class Schedule (models.Model):
         return display
 
 
-class Class_Attendance(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    MODE_CHOICES = [('In person', 'In person'),('Online', 'Online')]
+class ClassAttendance(models.Model):
+
+    CLASS_TYPE_CHOICES = [('In person', 'In person'),('Online', 'Online')]
     CLASS_QTN =[('1','1'),('2','2')]
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     Date_time = models.DateTimeField(default=datetime.now)
     Number_of_classes = models.CharField(max_length=1,choices=CLASS_QTN)
+    Class_type = models.CharField(max_length=15,choices=CLASS_TYPE_CHOICES, default='In Person')
+
+    def __str__(self):
+        display = (str(self.student) + " on " + self.Date_time.strftime("%I:%M %p  %A, %d %B %Y "))
+        return display
